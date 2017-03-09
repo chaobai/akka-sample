@@ -12,18 +12,16 @@ import akka.actor.Props;
 
 public class ClientMain {
     public static void main(String[] args) {
-        System.out.println("Starting calculator client");
-        ActorSystem system = ActorSystem.create("ClientSystem", ConfigFactory.load(("client")));
-        ActorRef client = system.actorOf(Props.create(Client.class), "client");
         
+        System.out.println("Starting calculator client");
+        
+        ActorSystem system = ActorSystem.create("ClientSystem", ConfigFactory.load(("client")));
+        
+        ActorRef client = system.actorOf(Props.create(Client.class), "client");
+
         IntStream.range(1, 10).forEach(i -> {
-            client.tell(new Add(i,i+1), ActorRef.noSender());
-            client.tell(new Multiply(i,i+2), ActorRef.noSender());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            client.tell(new Add(i, i + 1), ActorRef.noSender());
+            client.tell(new Multiply(i, i + 2), ActorRef.noSender());
         });
     }
 }
